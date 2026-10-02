@@ -1,3 +1,4 @@
+import json
 import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
@@ -486,7 +487,8 @@ def main():
     if st.button("🔍 ၁။ Data များကို စစ်ဆေးရန် (Preview)", type="primary"):
         with st.spinner("Google Sheet မှ Data များကို ဆွဲယူ စစ်ဆေးနေပါသည်..."):
             try:
-                gc = gspread.service_account(filename="credentials.json")
+                creds_dict = json.loads(st.secrets["google_credentials"])
+                gc = gspread.service_account_from_dict(creds_dict)
                 sh = gc.open_by_key(target_id)
                 worksheet = sh.worksheet("Today") 
                 
@@ -515,7 +517,8 @@ def main():
             if st.button("💾 ၂။ ပြင်ဆင်မှုများကို Sheet ပေါ်သို့ Save လုပ်ရန်", type="secondary"):
                 with st.spinner("Sheet ပေါ်သို့ Data အသစ်များ Update လုပ်နေပါသည်..."):
                     try:
-                        gc = gspread.service_account(filename="credentials.json")
+                        creds_dict = json.loads(st.secrets["google_credentials"])
+                        gc = gspread.service_account_from_dict(creds_dict)
                         sh = gc.open_by_key(st.session_state.selected_sheet_id)
                         worksheet = sh.worksheet("Today")
                         
