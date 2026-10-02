@@ -488,6 +488,7 @@ def main():
         with st.spinner("Google Sheet မှ Data များကို ဆွဲယူ စစ်ဆေးနေပါသည်..."):
             try:
                 creds_dict = json.loads(st.secrets["google_credentials"])
+                creds_dict["private_key"] = creds_dict["private_key"].replace("\\n", "\n")
                 gc = gspread.service_account_from_dict(creds_dict)
                 sh = gc.open_by_key(target_id)
                 worksheet = sh.worksheet("Today") 
@@ -518,6 +519,7 @@ def main():
                 with st.spinner("Sheet ပေါ်သို့ Data အသစ်များ Update လုပ်နေပါသည်..."):
                     try:
                         creds_dict = json.loads(st.secrets["google_credentials"])
+                        creds_dict["private_key"] = creds_dict["private_key"].replace("\\n", "\n")
                         gc = gspread.service_account_from_dict(creds_dict)
                         sh = gc.open_by_key(st.session_state.selected_sheet_id)
                         worksheet = sh.worksheet("Today")
