@@ -4,6 +4,7 @@ import pandas as pd
 import gspread
 from datetime import datetime
 import re
+import json
 
 # =====================================================================
 # 🛠️ Data Validation & Auto-Healing Class
@@ -698,8 +699,7 @@ def main():
     if st.button("🔍 ၁။ Data များကို စစ်ဆေးရန် (Preview)", type="primary"):
         with st.spinner("Google Sheet မှ Data များကို ဆွဲယူ စစ်ဆေးနေပါသည်..."):
             try:
-                creds_dict = dict(st.secrets["gcp_service_account"])
-                creds_dict["private_key"] = creds_dict["private_key"].replace("\\n", "\n")
+                creds_dict = json.loads(st.secrets["google_credentials_json"])
                 gc = gspread.service_account_from_dict(creds_dict)
                 sh = gc.open_by_key(target_id)
                 worksheet = sh.worksheet("Today") 
